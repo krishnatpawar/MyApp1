@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import com.taxi.R;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AbstractTaxiActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
