@@ -18,7 +18,18 @@
         </activity>
         <activity
             android:name=".Activity.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".Activity.AbstractTaxiActivity"
+            android:label="@string/title_activity_abstract_taxi" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity
+            android:name=".Activity.RegistrationActivity"
+            android:label="@string/title_activity_registration" >
+        </activity>
+        <activity
+            android:name=".Activity.HomeScreenActivity"
+            android:label="@string/title_activity_home_screen" >
         </activity>
     </application>
 
