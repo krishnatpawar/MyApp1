@@ -20,4 +20,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_example">Example action</string>
+
+    <!-- App Webservices -->
+    <string name="base_url">base_url</string>
+    <string name="login">login</string>
 </resources>
