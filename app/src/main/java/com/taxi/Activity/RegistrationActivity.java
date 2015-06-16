@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.taxi.R;
 import com.taxi.utils.FloatingHintEditText;
 
-public class RegistrationActivity extends Activity {
+public class RegistrationActivity extends AbstractTaxiActivity {
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edSetPwd;

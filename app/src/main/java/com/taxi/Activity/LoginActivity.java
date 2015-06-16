@@ -5,11 +5,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.taxi.R;
+import com.taxi.utils.FloatingHintEditText;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AbstractTaxiActivity {
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edPwd;
@@ -17,9 +19,9 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_login);
+        setContentView(R.layout.activity_login);
         init();
-        edEmail.setOnFocusChangeListener(new OnFocusChangeListener() {
+        edEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
@@ -34,7 +36,7 @@ public class LoginActivity extends Activity {
 
             }
         });
-        edPwd.setOnFocusChangeListener(new OnFocusChangeListener() {
+        edPwd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){

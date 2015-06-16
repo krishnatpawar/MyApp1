@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.EditText;
 
+import com.taxi.R;
+
 public class FloatingHintEditText extends EditText {
     private static enum Animation { NONE, SHRINK, GROW }
 
@@ -37,7 +39,7 @@ public class FloatingHintEditText extends EditText {
         TypedValue typedValue = new TypedValue();
         getResources().getValue(R.dimen.floatinghintedittext_hint_scale, typedValue, true);
         mHintScale = typedValue.getFloat();
-        mAnimationSteps = getResources().getInteger(R.dimen.floatinghintedittext_animation);
+        mAnimationSteps = getResources().getInteger(R.dimen.floatinghintedittext_animation_steps);
 
         mHintColors = getHintTextColors();
         mWasEmpty = TextUtils.isEmpty(getText());

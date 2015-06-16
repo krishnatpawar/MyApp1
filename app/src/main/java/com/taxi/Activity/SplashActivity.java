@@ -20,7 +20,7 @@ public class SplashActivity extends AbstractTaxiActivity {
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    startIntent(SplashActivity.this, MainActivity.class);
+                    startIntent(SplashActivity.this, RegistrationActivity.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
