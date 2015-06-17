@@ -72,7 +72,7 @@
         android:background="@drawable/round_background"
         android:orientation="vertical" >
 
-        <com.example.sample.FloatingHintEditText
+        <com.taxi.utils.FloatingHintEditText
             android:id="@+id/email_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -91,7 +91,7 @@
             android:layout_marginRight="10dp"
             android:background="#E6E6E6" />
 
-        <com.example.sample.FloatingHintEditText
+        <com.taxi.utils.FloatingHintEditText
             android:id="@+id/set_pwd_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -110,7 +110,7 @@
             android:layout_marginRight="10dp"
             android:background="#E6E6E6" />
 
-        <com.example.sample.FloatingHintEditText
+        <com.taxi.utils.FloatingHintEditText
             android:id="@+id/re_enter_pwd_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -129,7 +129,7 @@
             android:layout_marginRight="10dp"
             android:background="#E6E6E6" />
 
-        <com.example.sample.FloatingHintEditText
+        <com.taxi.utils.FloatingHintEditText
             android:id="@+id/full_name_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -147,7 +147,7 @@
             android:layout_marginRight="10dp"
             android:background="#E6E6E6" />
 
-        <com.example.sample.FloatingHintEditText
+        <com.taxi.utils.FloatingHintEditText
             android:id="@+id/enter_mob_no_et"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -170,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <com.example.sample.FloatingHintEditText
+            <com.taxi.utils.FloatingHintEditText
                 android:id="@+id/referrel_code_et"
                 android:layout_width="250dp"
                 android:layout_height="50dp"

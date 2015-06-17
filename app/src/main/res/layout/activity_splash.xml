@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
 
-    android:background="@drawable/taxi_1"
+    android:background="@drawable/taxi1"
     tools:context="com.taxi.Activity.SplashActivity">
 
 
