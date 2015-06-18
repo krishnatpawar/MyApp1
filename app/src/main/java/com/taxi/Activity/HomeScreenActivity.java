@@ -12,10 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.taxi.R;
+import com.taxi.fragments.AboutFragment;
 import com.taxi.fragments.BookMyRideFragment;
+import com.taxi.fragments.CallSupportFragment;
+import com.taxi.fragments.EmergencyContactfragment;
 import com.taxi.fragments.FragmentDrawer;
+import com.taxi.fragments.InviteEarnFragment;
 import com.taxi.fragments.MyMoneyFragment;
 import com.taxi.fragments.MyRidesFragment;
+import com.taxi.fragments.RateCardFragment;
+import com.taxi.fragments.ReportIssueFragment;
 
 public class HomeScreenActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 
@@ -23,7 +29,6 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private FragmentDrawer mNavigationDrawerFragment;
     private CharSequence mTitle;
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
@@ -82,15 +87,39 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         switch (position) {
             case 0:
                 fragment = new BookMyRideFragment();
-                title = getString(R.string.title_home);
+                title = getString(R.string.title_bookmyride);
                 break;
             case 1:
                 fragment = new MyRidesFragment();
-                title = getString(R.string.title_friends);
+                title = getString(R.string.title_rides);
                 break;
             case 2:
                 fragment = new MyMoneyFragment();
-                title = getString(R.string.title_messages);
+                title = getString(R.string.title_mymoney);
+                break;
+            case 3:
+                fragment = new InviteEarnFragment();
+                title = getString(R.string.title_invite);
+                break;
+            case 4:
+                fragment = new RateCardFragment();
+                title = getString(R.string.title_ratecard);
+                break;
+            case 5:
+                fragment = new EmergencyContactfragment();
+                title = getString(R.string.title_emeregency);
+                break;
+            case 6:
+                fragment = new ReportIssueFragment();
+                title = getString(R.string.title_reportissues);
+                break;
+            case 7:
+                fragment = new CallSupportFragment();
+                title = getString(R.string.title_call_support);
+                break;
+            case 8:
+                fragment = new AboutFragment();
+                title = getString(R.string.title_about);
                 break;
             default:
                 break;

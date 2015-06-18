@@ -28,18 +28,38 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
-    <string name="nav_item_home">Home</string>
-    <string name="nav_item_friends">Friends</string>
-    <string name="nav_item_notifications">Messages</string>
+    <string name="nav_item_bookmyride">BOOK MY RIDE</string>
+    <string name="nav_item_myrides">MY RIDES</string>
+    <string name="nav_item_mymoney">MY MONEY</string>
+
+    <string name="nav_item_invite">INITE &amp; EARN </string>
+    <string name="nav_item_ratecard">RATE CARD</string>
+    <string name="nav_item_emergency">EMERGENCY CONTACT</string>
+
+    <string name="nav_item_reportissue">REPORT ISSUE</string>
+    <string name="nav_item_call_support">CALL SUPPORT</string>
+    <string name="nav_item_about">ABOUT</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
-        <item>@string/nav_item_home</item>
-        <item>@string/nav_item_friends</item>
-        <item>@string/nav_item_notifications</item>
+        <item>@string/nav_item_bookmyride</item>
+        <item>@string/nav_item_myrides</item>
+        <item>@string/nav_item_mymoney</item>
+        <item>@string/nav_item_invite</item>
+        <item>@string/nav_item_ratecard</item>
+        <item>@string/nav_item_emergency</item>
+        <item>@string/nav_item_reportissue</item>
+        <item>@string/nav_item_call_support</item>
+        <item>@string/nav_item_about</item>
     </string-array>
 
-    <string name="title_messages">Messages</string>
-    <string name="title_friends">Friends</string>
-    <string name="title_home">Home</string>
+    <string name="title_mymoney">MyMoney</string>
+    <string name="title_rides">MyRides</string>
+    <string name="title_bookmyride">BookMyRide</string>
+    <string name="title_invite">Invite&amp;Earn</string>
+    <string name="title_ratecard">RateCard</string>
+    <string name="title_emeregency">Emergency Contact</string>
+    <string name="title_reportissues">port Issue</string>
+    <string name="title_call_support">Ca Support</string>
+    <string name="title_about">About</string>
 </resources>

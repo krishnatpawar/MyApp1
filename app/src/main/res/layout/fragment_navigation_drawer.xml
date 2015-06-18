@@ -4,21 +4,31 @@
     android:background="@android:color/white">
 
 
-    <RelativeLayout
-        android:id="@+id/nav_header_container"
-        android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary">
+     <RelativeLayout
+         android:id="@+id/nav_header_container"
+         android:layout_width="match_parent"
+         android:layout_height="80dp"
+         android:layout_alignParentTop="true"
+         android:background="@color/colorPrimary">
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_profile"
-            android:scaleType="fitCenter"
-            android:layout_centerInParent="true" />
+         <ImageView
+             android:id="@+id/profile_img"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:src="@drawable/ic_profile"
+             android:scaleType="fitCenter"
+             android:layout_alignParentLeft="true"
+             android:layout_centerVertical="true"
+             android:layout_marginLeft="15dp"/>
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="User Name"
+             android:textSize="16sp"
+             android:layout_centerVertical="true"
+             android:layout_toRightOf="@id/profile_img"/>
 
-    </RelativeLayout>
+     </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
