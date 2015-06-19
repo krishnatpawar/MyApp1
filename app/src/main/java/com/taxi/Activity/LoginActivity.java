@@ -19,9 +19,16 @@ import com.taxi.utils.CustomLog;
 import com.taxi.utils.FloatingHintEditText;
 import com.taxi.utils.Webservices;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener {
+
+    public final String TAG_PHONENUMBER="phonenumber";
+    public final String TAG_RESPONSEINFO="responseinfo";
+    public final String TAG_EMAIL="email";
+    public final String TAG_USERID="userid";
+    public final String TAG_PASSWORD="password";
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edPwd;
@@ -96,6 +103,17 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
 
     private void loginUser(JSONObject jsonObject) {
         CustomLog.v("TAXI_LOGIN", "login" + jsonObject);
+        try {
+            String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            if (responseInfo.isEmpty()) {
+                return;
+            }
+            if (responseInfo.equalsIgnoreCase("success")) {
+                startScreen(HomeScreenActivity.class);
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void login(View v) {

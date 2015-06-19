@@ -26,4 +26,9 @@ public class AbstractTaxiActivity extends Activity {
     protected void showMessage(String message) {
         Toast.makeText(AbstractTaxiActivity.this, message, Toast.LENGTH_SHORT).show();
     }
+
+    protected void startScreen(Class<?> activity) {
+        Intent intent = new Intent(AbstractTaxiActivity.this, activity);
+        startActivity(intent);
+    }
 }

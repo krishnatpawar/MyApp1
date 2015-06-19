@@ -22,9 +22,12 @@ import com.taxi.utils.CustomLog;
 import com.taxi.utils.FloatingHintEditText;
 import com.taxi.utils.Webservices;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RegistrationActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener, View.OnClickListener {
+
+    public final String TAG_RESPONSEINFO="responseinfo";
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edSetPwd;
@@ -226,6 +229,17 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
 
     private void registerResponse(JSONObject jsonObject) {
         CustomLog.v("TAXI_REGISTER", "register: " + jsonObject);
+        try {
+            String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            if (responseInfo.isEmpty()) {
+                return;
+            }
+            if (responseInfo.equalsIgnoreCase("success")) {
+                startScreen(LoginActivity.class);
+            }
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
 
