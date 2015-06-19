@@ -8,5 +8,4 @@ public class Constants {
     public static String KEY_APP_PREFERENCES = "taxi_preferences";
     public static String KEY_USER_ID = "taxi_user_id";
 
-
 }

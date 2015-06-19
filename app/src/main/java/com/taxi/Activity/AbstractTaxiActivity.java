@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.taxi.R;
 
@@ -20,5 +21,9 @@ public class AbstractTaxiActivity extends Activity {
     protected void startIntent(Context context, Class<?> activity) {
         Intent intent = new Intent(context, activity);
         startActivity(intent);
+    }
+
+    protected void showMessage(String message) {
+        Toast.makeText(AbstractTaxiActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
