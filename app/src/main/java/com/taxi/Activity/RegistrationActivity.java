@@ -11,8 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.taxi.R;
+import com.taxi.application.AppConfig;
+import com.taxi.utils.AppUtils;
+import com.taxi.utils.CustomLog;
 import com.taxi.utils.FloatingHintEditText;
+import com.taxi.utils.Webservices;
+
+import org.json.JSONObject;
 
 public class RegistrationActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener, View.OnClickListener {
 
@@ -24,6 +34,9 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
     private FloatingHintEditText edRefCode;
     private TextView tvValidation;
     private ImageView imgReferralCode;
+
+    private JsonObjectRequest jsonObjectRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +60,9 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
         edRefCode = (FloatingHintEditText)findViewById(R.id.referrel_code_et);
         tvValidation = (TextView)findViewById(R.id.validation_tv);
         imgReferralCode = (ImageView)findViewById(R.id.referral_iv);
+
+        TextView tvSignUp = (TextView) findViewById(R.id.signup_btn);
+        tvSignUp.setOnClickListener(this);
     }
 
     @Override
@@ -133,7 +149,83 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
     public void onClick(View v) {
         if (v.getId() == R.id.validation_tv) {
             showMessage("Yet to implement..!");
+        } else if (v.getId() == R.id.signup_btn) {
+            registerUser();
         }
+    }
+
+    private void registerUser() {
+        String emailStr = edEmail.getText().toString().trim();
+        String pwdStr = edSetPwd.getText().toString().trim();
+        String reenterPwd = edRenterPwd.getText().toString().trim();
+        String phonStr = edMobNum.getText().toString().trim();
+        String fullNameStr = edFullName.getText().toString().trim();
+
+        if (!AppUtils.chkStatus(RegistrationActivity.this)) {
+            showMessage("check internet connection");
+            return;
+        }
+        if (emailStr.isEmpty() || !AppUtils.isValidEmail(emailStr)) {
+            showMessage("Enter valid mail");
+            return;
+        }
+        if (pwdStr.isEmpty()) {
+            showMessage("Enter Password");
+            return;
+        }
+        if (reenterPwd.isEmpty()) {
+            showMessage("Re enter password");
+            return;
+        }
+        if (!pwdStr.equalsIgnoreCase(reenterPwd)) {
+            showMessage("password are not matching");
+            return;
+        }
+        if (fullNameStr.isEmpty()) {
+            showMessage("Enter your name");
+            return;
+        }
+        if (phonStr.isEmpty()) {
+            showMessage("enter mobile number");
+            return;
+        }
+
+        if (phonStr.length() != 10) {
+            showMessage("mobile number must have 10 digits");
+            return;
+        }
+        serviceToRegisterUser(emailStr, pwdStr, fullNameStr,phonStr);
+
+    }
+
+    private void serviceToRegisterUser(String emailStr, String pwdStr, String fullNameStr,String phonStr) {
+        String url = Webservices.BASE_URL + Webservices.REGISTER_URL
+                +"?newemail="+emailStr+"&newfullname="+fullNameStr+"&newpassword="+pwdStr
+                +"&newphonenumber="+phonStr;
+
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject jsonObj) {
+                        registerResponse(jsonObj);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError arg0) {
+                CustomLog.v("", "Volley Error: " + arg0);
+                showMessage("Volley error: "+ arg0);
+                AppConfig.getInstance().cancelPendingRequests("haitipam_searching_users");
+            }
+
+        }) ;
+
+        AppConfig.getInstance().addToRequestque(jsonObjectRequest, "taxi_login");
+    }
+
+    private void registerResponse(JSONObject jsonObject) {
+        CustomLog.v("TAXI_REGISTER", "register: " + jsonObject);
     }
 }
 

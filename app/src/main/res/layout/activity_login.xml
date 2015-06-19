@@ -50,15 +50,16 @@
 
         <com.taxi.utils.FloatingHintEditText
             android:id="@+id/email_et"
+            style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@null"
             android:hint="Enter Email"
-            style="@style/Widget.AppCompat.EditText"
             android:inputType="textEmailAddress"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
+            android:textColor="#000000"
             android:textSize="16sp" />
 
         <View
@@ -70,6 +71,7 @@
 
         <com.taxi.utils.FloatingHintEditText
             android:id="@+id/pwd_et"
+            style="@style/Widget.AppCompat.EditText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@null"
@@ -77,8 +79,8 @@
             android:inputType="textPassword"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
-            style="@style/Widget.AppCompat.EditText"
             android:paddingTop="10dp"
+            android:textColor="#000000"
             android:textSize="16sp" />
 
         <View
@@ -98,9 +100,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@null"
+        android:onClick="login"
         android:text="Login"
         android:textColor="#D8D8D8"
-        android:onClick="login"
         android:textSize="16sp" />
 
     <Button
@@ -111,8 +113,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@null"
-        android:text="Forgot password"
         android:onClick="forgotPwd"
+        android:text="Forgot password"
         android:textColor="#D8D8D8"
         android:textSize="16sp" />
 </RelativeLayout>

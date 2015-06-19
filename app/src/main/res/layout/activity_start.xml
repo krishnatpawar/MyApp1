@@ -28,6 +28,7 @@
                 android:layout_margin="10dp"
                 android:layout_height="40dp"
                 android:text="Sign Up"
+                android:onClick="registerUser"
                 android:background="@drawable/btn_bg_hover"
                  />
 
@@ -37,6 +38,7 @@
                 android:layout_margin="10dp"
                 android:layout_height="40dp"
                 android:text="Login"
+                android:onClick="loginUser"
                 android:background="@drawable/btn_bg"
                 />
 

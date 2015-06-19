@@ -95,13 +95,13 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
     }
 
     private void loginUser(JSONObject jsonObject) {
-        CustomLog.v("TAXI_LOGIN", "" + jsonObject);
+        CustomLog.v("TAXI_LOGIN", "login" + jsonObject);
     }
 
     public void login(View v) {
         String emailStr = edEmail.getText().toString().trim();
         String pwdStr = edPwd.getText().toString().trim();
-        if (!AppUtils.chkStatus()) {
+        if (!AppUtils.chkStatus(LoginActivity.this)) {
             showMessage("check your connection");
             return;
         }
@@ -118,13 +118,7 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
 
     public void forgotPwd(View v) {
         showMessage("Coming soon");
-
-        //TODO temporary register
-        registerUser();
     }
 
-    private void registerUser() {
-
-    }
 }
 

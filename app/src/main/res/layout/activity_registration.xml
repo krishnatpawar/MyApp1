@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/signup_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:padding="10dp" >
 
         <TextView
@@ -20,12 +20,14 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:text="Sign Up"
-            android:textColor="#1C1C1C"
-            android:textSize="18sp" />
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:id="@+id/signup_btn" />
     </RelativeLayout>
 
     <TextView
@@ -83,6 +85,7 @@
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
+            android:textColor="#000000"
             android:textSize="16sp" />
 
         <View
@@ -102,6 +105,7 @@
             android:inputType="textPassword"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
+            android:textColor="#000000"
             android:paddingTop="10dp"
             android:textSize="16sp" />
 
@@ -121,6 +125,7 @@
             android:hint="Re enter Password"
             android:inputType="textPassword"
             android:paddingBottom="2dp"
+            android:textColor="#000000"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
             android:textSize="16sp" />
@@ -141,6 +146,7 @@
             style="@style/Widget.AppCompat.EditText"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
+            android:textColor="#000000"
             android:paddingTop="10dp"
             android:textSize="16sp" />
 
@@ -161,6 +167,7 @@
             android:inputType="phone"
             android:paddingBottom="2dp"
             android:paddingLeft="10dp"
+            android:textColor="#000000"
             android:paddingTop="10dp"
             android:textSize="16sp" />
 
@@ -185,6 +192,7 @@
                 android:inputType="text"
                 android:paddingBottom="2dp"
                 android:paddingLeft="10dp"
+                android:textColor="#000000"
                 android:paddingTop="10dp"
                 android:textSize="16sp" />
 

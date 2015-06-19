@@ -20,7 +20,7 @@ public class SplashActivity extends AbstractTaxiActivity {
                 !Preferences.getUserId(SplashActivity.this).isEmpty()) {
             loginIntoApp(HomeScreenActivity.class);
         } else {
-            loginIntoApp(LoginActivity.class);
+            loginIntoApp(MainActivity.class);
         }
     }
 
@@ -29,8 +29,9 @@ public class SplashActivity extends AbstractTaxiActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                     startIntent(SplashActivity.this, toClass);
+                    finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

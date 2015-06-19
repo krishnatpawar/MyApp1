@@ -15,8 +15,7 @@ public class AppUtils {
     /**
      * checking n/w available or not
      * */
-    public static boolean chkStatus() {
-        Context context = AppConfig.getInstance();
+    public static boolean chkStatus(Context context) {
         ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connManager != null) {
             NetworkInfo i = connManager.getActiveNetworkInfo();

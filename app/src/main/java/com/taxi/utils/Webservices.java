@@ -10,6 +10,5 @@ public static String BASE_URL = "http://wowads.asia/taxidriver/";
         //?email=ashishssss@dkslakds.com&password=sdhjlashdh
 public static String LOGIN_URL = "login.php";
 //registration
-public static String REGISTER_URL = "register.php?newemail=ashishs@dkslakds.com&" +
-        "newfullname=dsfsdsaf&newpassword=sdhjlashdh&newphonenumber=324234324";
+public static String REGISTER_URL = "register.php";
 }
