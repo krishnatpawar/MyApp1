@@ -16,8 +16,7 @@ public class SplashActivity extends AbstractTaxiActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        if (Preferences.getUserId(SplashActivity.this) != null &&
-                !Preferences.getUserId(SplashActivity.this).isEmpty()) {
+        if (!Preferences.getUserId(SplashActivity.this).isEmpty()) {
             loginIntoApp(HomeScreenActivity.class);
         } else {
             loginIntoApp(MainActivity.class);
@@ -30,7 +29,7 @@ public class SplashActivity extends AbstractTaxiActivity {
             public void run() {
                 try {
                     Thread.sleep(2000);
-                    startIntent(SplashActivity.this, toClass);
+                    startScreen(toClass);
                     finish();
                 } catch (Exception e) {
                     e.printStackTrace();

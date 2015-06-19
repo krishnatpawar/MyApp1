@@ -24,11 +24,7 @@ import org.json.JSONObject;
 
 public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener {
 
-    public final String TAG_PHONENUMBER="phonenumber";
     public final String TAG_RESPONSEINFO="responseinfo";
-    public final String TAG_EMAIL="email";
-    public final String TAG_USERID="userid";
-    public final String TAG_PASSWORD="password";
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edPwd;
@@ -93,7 +89,7 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
             public void onErrorResponse(VolleyError arg0) {
                 CustomLog.v("", "Volley Error: " + arg0);
                 showMessage("Volley error: "+ arg0);
-                AppConfig.getInstance().cancelPendingRequests("haitipam_searching_users");
+                AppConfig.getInstance().cancelPendingRequests("taxi_login");
             }
 
         }) ;

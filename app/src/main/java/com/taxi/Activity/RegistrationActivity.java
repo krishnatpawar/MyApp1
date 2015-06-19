@@ -2,6 +2,7 @@ package com.taxi.Activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import com.taxi.application.AppConfig;
 import com.taxi.utils.AppUtils;
 import com.taxi.utils.CustomLog;
 import com.taxi.utils.FloatingHintEditText;
+import com.taxi.utils.Preferences;
 import com.taxi.utils.Webservices;
 
 import org.json.JSONException;
@@ -28,6 +30,10 @@ import org.json.JSONObject;
 public class RegistrationActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener, View.OnClickListener {
 
     public final String TAG_RESPONSEINFO="responseinfo";
+    public final String TAG_PHONENUMBER="phonenumber";
+    public final String TAG_EMAIL="email";
+    public final String TAG_USERID="userid";
+    public final String TAG_PASSWORD="password";
 
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edSetPwd;
@@ -219,23 +225,25 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
             public void onErrorResponse(VolleyError arg0) {
                 CustomLog.v("", "Volley Error: " + arg0);
                 showMessage("Volley error: "+ arg0);
-                AppConfig.getInstance().cancelPendingRequests("haitipam_searching_users");
+                AppConfig.getInstance().cancelPendingRequests("taxi_register");
             }
 
         }) ;
 
-        AppConfig.getInstance().addToRequestque(jsonObjectRequest, "taxi_login");
+        AppConfig.getInstance().addToRequestque(jsonObjectRequest, "taxi_register");
     }
 
     private void registerResponse(JSONObject jsonObject) {
         CustomLog.v("TAXI_REGISTER", "register: " + jsonObject);
         try {
             String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            String userId = jsonObject.getString(TAG_USERID);
             if (responseInfo.isEmpty()) {
                 return;
             }
             if (responseInfo.equalsIgnoreCase("success")) {
                 startScreen(LoginActivity.class);
+                Preferences.setUserId(getApplicationContext(), userId);
                 finish();
             }
         } catch(JSONException e) {

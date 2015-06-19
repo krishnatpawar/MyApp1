@@ -35,7 +35,6 @@
             android:name=".Activity.LoginActivity"
             android:label="@string/title_activity_login" />
 
-
         <activity
             android:name=".Activity.AbstractTaxiActivity"
             android:label="@string/title_activity_abstract_taxi" />

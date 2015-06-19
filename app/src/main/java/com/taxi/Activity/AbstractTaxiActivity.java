@@ -18,11 +18,6 @@ public class AbstractTaxiActivity extends Activity {
         super.onCreate(savedInstanceState);
     }
 
-    protected void startIntent(Context context, Class<?> activity) {
-        Intent intent = new Intent(context, activity);
-        startActivity(intent);
-    }
-
     protected void showMessage(String message) {
         Toast.makeText(AbstractTaxiActivity.this, message, Toast.LENGTH_SHORT).show();
     }
