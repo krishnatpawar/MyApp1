@@ -110,6 +110,7 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
             }
             if (responseInfo.equalsIgnoreCase("success")) {
                 startScreen(HomeScreenActivity.class);
+                finish();
             }
         } catch(JSONException e) {
             e.printStackTrace();

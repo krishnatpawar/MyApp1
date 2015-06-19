@@ -236,6 +236,7 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
             }
             if (responseInfo.equalsIgnoreCase("success")) {
                 startScreen(LoginActivity.class);
+                finish();
             }
         } catch(JSONException e) {
             e.printStackTrace();

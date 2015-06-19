@@ -52,6 +52,7 @@ public class MainActivity extends FragmentActivity {
     private void startScreen(Class<?> activity) {
         Intent intent = new Intent(MainActivity.this, activity);
         startActivity(intent);
+        finish();
     }
 
     private void setTab() {
