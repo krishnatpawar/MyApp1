@@ -17,6 +17,7 @@ import com.taxi.fragments.BookMyRideFragment;
 import com.taxi.fragments.CallSupportFragment;
 import com.taxi.fragments.EmergencyContactfragment;
 import com.taxi.fragments.FragmentDrawer;
+import com.taxi.fragments.HomeFragment;
 import com.taxi.fragments.InviteEarnFragment;
 import com.taxi.fragments.MyMoneyFragment;
 import com.taxi.fragments.MyRidesFragment;
@@ -86,8 +87,8 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                fragment = new BookMyRideFragment();
-                title = getString(R.string.title_bookmyride);
+                fragment = new HomeFragment();
+                title = "Home";
                 break;
             case 1:
                 fragment = new MyRidesFragment();
