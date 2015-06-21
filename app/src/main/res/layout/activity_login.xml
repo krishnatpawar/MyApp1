@@ -112,8 +112,7 @@
         android:layout_below="@id/btn_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@drawable/ask_btn_selector"
-
+        android:background="@null"
         android:onClick="forgotPwd"
         android:text="Forgot password"
         android:textColor="#D8D8D8"
