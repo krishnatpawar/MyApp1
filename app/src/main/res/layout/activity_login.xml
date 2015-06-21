@@ -99,7 +99,7 @@
         android:layout_below="@id/login_llyt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@null"
+        android:background="@drawable/ask_btn_selector"
         android:onClick="login"
         android:text="Login"
         android:textColor="#D8D8D8"
@@ -112,7 +112,8 @@
         android:layout_below="@id/btn_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@null"
+        android:background="@drawable/ask_btn_selector"
+
         android:onClick="forgotPwd"
         android:text="Forgot password"
         android:textColor="#D8D8D8"

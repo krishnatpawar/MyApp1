@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2A0A0A" >
+    android:background="#2A0A0A">
 
     <RelativeLayout
         android:id="@+id/signup_header"
@@ -18,7 +18,7 @@
             android:textColor="#D8D8D8"
             android:textSize="18sp" />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="45dp"
             android:layout_alignParentRight="true"
@@ -26,7 +26,8 @@
             android:text="Sign Up"
             android:layout_centerVertical="true"
             android:textSize="18sp"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/ask_btn_selector"
             android:id="@+id/signup_btn" />
     </RelativeLayout>
 

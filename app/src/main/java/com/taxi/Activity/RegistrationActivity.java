@@ -1,6 +1,7 @@
 package com.taxi.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +72,7 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
         tvValidation = (TextView)findViewById(R.id.validation_tv);
         imgReferralCode = (ImageView)findViewById(R.id.referral_iv);
 
-        TextView tvSignUp = (TextView) findViewById(R.id.signup_btn);
+        Button tvSignUp = (Button) findViewById(R.id.signup_btn);
         tvSignUp.setOnClickListener(this);
     }
 
@@ -212,17 +214,25 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
                 +"?newemail="+emailStr+"&newfullname="+fullNameStr+"&newpassword="+pwdStr
                 +"&newphonenumber="+phonStr;
 
+        final ProgressDialog pd = new ProgressDialog(RegistrationActivity.this);
+        pd.setTitle("Requesting...");
+        pd.setMessage("Login to InstantTaxi..Wait");
+        pd.setCancelable(false);
+        pd.show();
+
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject jsonObj) {
+                        pd.dismiss();
                         registerResponse(jsonObj);
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError arg0) {
+                pd.dismiss();
                 CustomLog.v("", "Volley Error: " + arg0);
                 showMessage("Volley error: "+ arg0);
                 AppConfig.getInstance().cancelPendingRequests("taxi_register");

@@ -23,4 +23,36 @@ public class Preferences {
         return getSharedPreferences(context).getString(Constants.KEY_USER_ID, "");
     }
 
+
+    public static void setUserEmail(Context context, String email) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(Constants.KEY_USER_EMAIL, email);
+        editor.commit();
+    }
+
+    public static String getUserEmail(Context context) {
+        return getSharedPreferences(context).getString(Constants.KEY_USER_EMAIL, "");
+    }
+
+
+    public static void setUserName(Context context, String name) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(Constants.KEY_USER_NAME, name);
+        editor.commit();
+    }
+
+    public static String getUserName(Context context) {
+        return getSharedPreferences(context).getString(Constants.KEY_USER_NAME, "");
+    }
+
+    public static void setUserPhNum(Context context, String phnum) {
+        SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+        editor.putString(Constants.KEY_USER_PHNUM, phnum);
+        editor.commit();
+    }
+
+    public static String getUserPhNum(Context context) {
+        return getSharedPreferences(context).getString(Constants.KEY_USER_PHNUM, "");
+    }
+
 }

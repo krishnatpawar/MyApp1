@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.taxi.R;
 import com.taxi.fragments.AboutFragment;
@@ -23,6 +24,7 @@ import com.taxi.fragments.MyMoneyFragment;
 import com.taxi.fragments.MyRidesFragment;
 import com.taxi.fragments.RateCardFragment;
 import com.taxi.fragments.ReportIssueFragment;
+import com.taxi.utils.Preferences;
 
 public class HomeScreenActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 

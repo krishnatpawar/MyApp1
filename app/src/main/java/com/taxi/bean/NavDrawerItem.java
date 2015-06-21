@@ -4,7 +4,7 @@ package com.taxi.bean;
 public class NavDrawerItem {
     private boolean showNotify;
     private String title;
-
+    private int imgResource;
 
     public NavDrawerItem() {
 
@@ -29,5 +29,13 @@ public class NavDrawerItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getImgResource() {
+        return imgResource;
+    }
+
+    public void setImgResource(int imgResource) {
+        this.imgResource = imgResource;
     }
 }

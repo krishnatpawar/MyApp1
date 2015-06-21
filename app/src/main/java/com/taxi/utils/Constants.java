@@ -7,5 +7,7 @@ public class Constants {
     //app preferences constants
     public static String KEY_APP_PREFERENCES = "taxi_preferences";
     public static String KEY_USER_ID = "taxi_user_id";
-
+    public static String KEY_USER_NAME = "taxi_user_name";
+    public static String KEY_USER_EMAIL = "taxi_user_email";
+    public static String KEY_USER_PHNUM = "taxi_user_phnum";
 }

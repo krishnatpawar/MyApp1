@@ -8,14 +8,11 @@
     <dimen name="navigation_drawer_width">240dp</dimen>
 
 
+    <item name="floatinghintedittext_hint_scale" format="float" type="dimen">0.6</item>
 
-        <item name="floatinghintedittext_hint_scale"
-            type="dimen" format="float">0.6</item>
-
-        <item name="floatinghintedittext_animation_steps"
-            type="dimen" format="integer">6</item>
-
-
+    <item name="floatinghintedittext_animation_steps" format="integer" type="dimen">6</item>
+    <dimen name="app_text_normal">16sp</dimen>
+    <dimen name="app_text_title">18sp</dimen>
 
 
 </resources>

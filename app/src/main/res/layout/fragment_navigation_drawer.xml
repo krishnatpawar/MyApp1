@@ -1,43 +1,72 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/color_grey">
 
 
-     <RelativeLayout
-         android:id="@+id/nav_header_container"
-         android:layout_width="match_parent"
-         android:layout_height="80dp"
-         android:layout_alignParentTop="true"
-         android:background="@color/colorPrimary">
+    <RelativeLayout
+        android:id="@+id/nav_header_container"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/menu_user_bg">
 
-         <ImageView
-             android:id="@+id/profile_img"
-             android:layout_width="40dp"
-             android:layout_height="40dp"
-             android:src="@drawable/ic_profile"
-             android:scaleType="fitCenter"
-             android:layout_alignParentLeft="true"
-             android:layout_centerVertical="true"
-             android:layout_marginLeft="15dp"/>
-         <TextView
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:text="User Name"
-             android:textSize="16sp"
-             android:layout_centerVertical="true"
-             android:layout_toRightOf="@id/profile_img"/>
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_profile" />
 
-     </RelativeLayout>
+        <ImageView
+            android:id="@+id/profile_nav_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arror_main" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/profile_nav_img"
+            android:layout_toRightOf="@id/profile_img"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:text="User Name"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/app_text_title" />
+            <TextView
+                android:id="@+id/user_ph_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:text="0123456789"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/app_text_title" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nav_header_container"
-        android:layout_marginTop="15dp" />
-
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
 

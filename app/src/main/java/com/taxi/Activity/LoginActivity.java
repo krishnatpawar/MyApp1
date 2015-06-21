@@ -1,6 +1,8 @@
 package com.taxi.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.preference.Preference;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import com.taxi.application.AppConfig;
 import com.taxi.utils.AppUtils;
 import com.taxi.utils.CustomLog;
 import com.taxi.utils.FloatingHintEditText;
+import com.taxi.utils.Preferences;
 import com.taxi.utils.Webservices;
 
 import org.json.JSONException;
@@ -25,7 +28,7 @@ import org.json.JSONObject;
 public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusChangeListener {
 
     public final String TAG_RESPONSEINFO="responseinfo";
-
+    public final String TAG_PHONE_INFO="phonenumber";
     private FloatingHintEditText edEmail;
     private FloatingHintEditText edPwd;
     private TextView tvValidation;
@@ -76,17 +79,29 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
 
     private void serviceToLogin(String email, String pwd) {
         String url = Webservices.BASE_URL+Webservices.LOGIN_URL+"?email="+email+"&password="+pwd;
+
+
+            final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+            pd.setTitle("Requesting...");
+            pd.setMessage("Login to InstantTaxi..Wait");
+            pd.setCancelable(false);
+            pd.show();
+
+
+
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject jsonObj) {
+                        pd.dismiss();
                         loginUser(jsonObj);
                     }
                 }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError arg0) {
+                pd.dismiss();
                 CustomLog.v("", "Volley Error: " + arg0);
                 showMessage("Volley error: "+ arg0);
                 AppConfig.getInstance().cancelPendingRequests("taxi_login");
@@ -101,10 +116,12 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
         CustomLog.v("TAXI_LOGIN", "login" + jsonObject);
         try {
             String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            String resPhnum = jsonObject.getString(TAG_PHONE_INFO);
             if (responseInfo.isEmpty()) {
                 return;
             }
             if (responseInfo.equalsIgnoreCase("success")) {
+                Preferences.setUserPhNum(getApplicationContext(), resPhnum);
                 startScreen(HomeScreenActivity.class);
                 finish();
             }
