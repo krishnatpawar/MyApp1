@@ -10,4 +10,8 @@ public class Constants {
     public static String KEY_USER_NAME = "taxi_user_name";
     public static String KEY_USER_EMAIL = "taxi_user_email";
     public static String KEY_USER_PHNUM = "taxi_user_phnum";
+    /**
+     * tags used for capturing image from camera & gallery
+     */
+    public static final String PROFILEIMAGEPATH = "/taxi/profile_images";
 }

@@ -36,7 +36,7 @@
                 android:id="@+id/register_fname"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/profile_pic"
+                android:layout_below="@+id/register_profile_pic"
                 android:background="@color/color_white"
                 android:hint="Firstname"
                 android:inputType="textEmailAddress"
