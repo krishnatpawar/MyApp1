@@ -2,27 +2,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <ScrollView
         android:id="@+id/app_resgister_layout_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/login_llyt"
-        android:layout_below="@id/app_logo_image">
+        android:layout_height="match_parent"
+        >
+
 
         <RelativeLayout
             android:id="@+id/app_register_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:background="@drawable/signup_bg"
+
             android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/register_profile_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:padding="10dp"
+                android:src="@drawable/logo_main" />
 
             <EditText
                 android:id="@+id/register_fname"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_below="@+id/profile_pic"
                 android:background="@color/color_white"
                 android:hint="Firstname"
                 android:inputType="textEmailAddress"

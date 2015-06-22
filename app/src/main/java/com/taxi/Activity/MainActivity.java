@@ -10,12 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.taxi.R;
 import com.taxi.adapter.ViewPagerAdapter;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements View.OnClickListener{
 
     //Constants
 
@@ -198,6 +200,19 @@ public class MainActivity extends FragmentActivity {
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_register_layout);
+        EditText edtFirstName = (EditText)dialog.findViewById(R.id.register_fname);
+        EditText edtLastName = (EditText)dialog.findViewById(R.id.register_lname);
+        EditText edtEmail = (EditText)dialog.findViewById(R.id.register_email);
+        EditText edtPwd = (EditText)dialog.findViewById(R.id.register_pwd);
+        EditText edtMobile = (EditText)dialog.findViewById(R.id.register_mobile);
+        Button btnRegister = (Button)dialog.findViewById(R.id.app_register_btn);
+        ImageView imgProfilePic = (ImageView)dialog.findViewById(R.id.register_profile_pic);
+        imgProfilePic.setOnClickListener(this);
         dialog.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
