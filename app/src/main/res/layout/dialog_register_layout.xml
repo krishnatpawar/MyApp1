@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/app_resgister_layout_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/login_llyt"
+        android:layout_below="@id/app_logo_image">
+
+        <RelativeLayout
+            android:id="@+id/app_register_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/signup_bg"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/register_fname"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/color_white"
+                android:hint="Firstname"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/register_lname"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_fname"
+                android:background="@color/color_white"
+                android:hint="Lastname"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/register_email"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_lname"
+                android:background="@color/color_white"
+                android:hint="Email address"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/register_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_email"
+                android:background="@color/color_white"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/register_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_pwd"
+                android:background="@color/color_white"
+                android:hint="Mobile no"
+                android:inputType="textEmailAddress"
+                android:padding="10dp" />
+
+            <CheckBox
+                android:id="@+id/check_box_app_register"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_mobile"
+                android:background="@color/color_white"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/register_mobile"
+                android:layout_toRightOf="@id/check_box_app_register"
+                android:background="@color/color_white"
+                android:gravity="center_vertical"
+                android:text="I agree terms and conditions" />
+
+            <Button
+                android:id="@+id/app_register_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/check_box_app_register"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/ask_btn_selector"
+                android:padding="10dp"
+                android:text="Register" />
+
+            <TextView
+                android:id="@+id/sign_up_with_social"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/app_register_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_toRightOf="@id/check_box_app_register"
+                android:background="@color/color_white"
+                android:gravity="center_horizontal"
+                android:text="Or signup with this" />
+
+            <LinearLayout
+                android:id="@+id/social_sign_up_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sign_up_with_social"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/sign_up_fb"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/facebook"
+                    android:padding="5dp" />
+
+                <Button
+                    android:id="@+id/sign_up_in"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/in"
+                    android:padding="5dp" />
+
+                <Button
+                    android:id="@+id/sign_up_tw"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/twitter"
+                    android:padding="5dp" />
+
+                <Button
+                    android:id="@+id/sign_up_g"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/google"
+                    android:padding="5dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/app_register_title"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/social_sign_up_layout"
+                android:layout_centerHorizontal="true"
+                android:text="InstantTaxi"
+                android:textColor="@color/color_light" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

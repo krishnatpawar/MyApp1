@@ -1,5 +1,6 @@
 package com.taxi.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.taxi.R;
@@ -39,11 +41,13 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void registerUser(View v) {
-        startScreen(RegistrationActivity.class);
+        //startScreen(RegistrationActivity.class);
+        showRegisterDialog();
     }
 
     public void loginUser(View v) {
-        startScreen(LoginActivity.class);
+        //startScreen(LoginActivity.class);
+        showLoginDialog();
     }
 
     private void startScreen(Class<?> activity) {
@@ -181,5 +185,19 @@ public class MainActivity extends FragmentActivity {
         btn.setBackgroundResource(selectedCircle);
 
         btn.setText(text);
+    }
+
+    private void showLoginDialog() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_login_layout);
+        dialog.show();
+    }
+
+    private void showRegisterDialog() {
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_register_layout);
+        dialog.show();
     }
 }
