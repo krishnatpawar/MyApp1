@@ -61,6 +61,7 @@
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:padding="10dip">
 
             <Button

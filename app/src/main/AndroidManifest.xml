@@ -54,7 +54,7 @@
         <activity
             android:name=".Activity.MainActivity"
             android:label="MainActivity"
-            android:theme="@android:style/Theme.DeviceDefault.NoActionBar.Fullscreen"></activity>
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

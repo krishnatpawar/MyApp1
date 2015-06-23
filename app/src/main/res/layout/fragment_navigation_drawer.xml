@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/menu_user_bg">
+        android:background="#BDBDBD">
 
         <ImageView
             android:id="@+id/profile_img"
@@ -63,7 +63,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawerList"
         android:layout_width="match_parent"
-        android:background="@drawable/popup_tr"
+        android:background="@color/color_grey"
         android:layout_height="wrap_content"
         android:layout_below="@id/nav_header_container" />
 

@@ -65,4 +65,6 @@
 
     <string name="common_url">http://wowads.asia/taxidriver/</string>
     <string name="register_service">register.php</string>
+
+    <string name="splash_copy_rights">COPYRIGHT 2015. ALL RIGHTS RESERVED.</string>
 </resources>
