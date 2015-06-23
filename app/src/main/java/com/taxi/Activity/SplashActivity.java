@@ -19,6 +19,7 @@ public class SplashActivity extends AbstractTaxiActivity {
         if (!Preferences.getUserId(SplashActivity.this).isEmpty()) {
             loginIntoApp(HomeScreenActivity.class);
         } else {
+            //TODO change this
             loginIntoApp(MainActivity.class);
         }
     }

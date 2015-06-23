@@ -8,6 +8,9 @@
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp"></corners>
 
-    <solid android:color="@color/windowBackground" />
+    <solid android:color="@color/color_white" />
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/color_black" />
 
 </shape>

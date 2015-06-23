@@ -25,12 +25,23 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.taxi.R;
 import com.taxi.adapter.ViewPagerAdapter;
+import com.taxi.application.AppConfig;
+import com.taxi.utils.AppUtils;
 import com.taxi.utils.Constants;
+import com.taxi.utils.CustomLog;
+import com.taxi.utils.Preferences;
+import com.taxi.utils.Webservices;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -55,25 +66,69 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     //Constants
 
-    //Views
-    private ViewPager myViewPager;
-    private ViewPagerAdapter adapter;
-    private Button circle1, circle2, circle3, circle4, circle5, circle6, circle7;
-    private int minWidth;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_GALLERY = 2;
-    private int desiredImageWidth = 300, desiredImageHeight = 300;
     private static final String TAG = MainActivity.class.getName();
-    private String selectedImagePath = "";
-    private Bitmap rotatedBitmap;
-    private ImageView imgProfilePic;
-    private boolean isFileImageUploaded;
-    private ProgressDialog dialog;
+    public final String TAG_RESPONSEINFO = "responseinfo";
+    public final String TAG_PHONE_INFO = "phonenumber";
     EditText edtFirstName;
     EditText edtLastName;
     EditText edtEmail;
     EditText edtPwd;
     EditText edtMobile;
+    private JsonObjectRequest jsonObjectRequest;
+    //Views
+    private ViewPager myViewPager;
+    private ViewPagerAdapter adapter;
+    private Button circle1, circle2, circle3, circle4, circle5, circle6, circle7;
+    private int minWidth;
+    private int desiredImageWidth = 300, desiredImageHeight = 300;
+    private String selectedImagePath = "";
+    private Bitmap rotatedBitmap;
+    private ImageView imgProfilePic;
+    private boolean isFileImageUploaded;
+    private ProgressDialog dialog;
+
+    /**
+     * decoding bitmap from its path
+     *
+     * @param path
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        Bitmap bmp = BitmapFactory.decodeFile(path, options);
+        return bmp;
+    }
+
+    /**
+     * Calculating inSample size
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            if (width > height) {
+                inSampleSize = Math.round((float) height / (float) reqHeight);
+            } else {
+                inSampleSize = Math.round((float) width / (float) reqWidth);
+            }
+        }
+        return inSampleSize;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +296,92 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login_layout);
+        final EditText edtMail = (EditText) dialog.findViewById(R.id.login_email);
+        final EditText edttPwd = (EditText) dialog.findViewById(R.id.login_pwd);
+        Button btnLogin = (Button) dialog.findViewById(R.id.app_login_btn);
+        TextView tvForgot = (TextView) dialog.findViewById(R.id.app_forgot);
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mailStr = edtMail.getText().toString().trim();
+                String pwdStr = edttPwd.getText().toString().trim();
+                if (!AppUtils.chkStatus(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (mailStr.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (!AppUtils.isValidEmail(mailStr)) {
+                    Toast.makeText(MainActivity.this, "Please enter valied email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (pwdStr.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please enter password", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                serviceToLogin(mailStr, pwdStr);
+            }
+        });
+        tvForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Yet to implement..!", Toast.LENGTH_LONG).show();
+            }
+        });
         dialog.show();
+    }
+
+    private void serviceToLogin(String email, String pwd) {
+        String url = Webservices.BASE_URL + Webservices.LOGIN_URL + "?email=" + email + "&password=" + pwd;
+
+
+        final ProgressDialog pd = new ProgressDialog(MainActivity.this);
+        pd.setTitle("Requesting...");
+        pd.setMessage("Login to InstantTaxi..Wait");
+        pd.setCancelable(false);
+        pd.show();
+
+
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject jsonObj) {
+                        pd.dismiss();
+                        loginUser(jsonObj);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError arg0) {
+                pd.dismiss();
+                CustomLog.v("", "Volley Error: " + arg0);
+                AppConfig.getInstance().cancelPendingRequests("taxi_login");
+            }
+
+        });
+
+        AppConfig.getInstance().addToRequestque(jsonObjectRequest, "taxi_login");
+    }
+
+    private void loginUser(JSONObject jsonObject) {
+        CustomLog.v("TAXI_LOGIN", "login" + jsonObject);
+        try {
+            String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            String resPhnum = jsonObject.getString(TAG_PHONE_INFO);
+            if (responseInfo.isEmpty()) {
+                return;
+            }
+            if (responseInfo.equalsIgnoreCase("success")) {
+                Preferences.setUserPhNum(getApplicationContext(), resPhnum);
+                startScreen(HomeScreenActivity.class);
+                finish();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showRegisterDialog() {
@@ -280,79 +420,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     * This method call will update the user details
-     */
-
-    class ToRegisterAsync extends AsyncTask<Void, Integer, String> {
-
-        Map<String, String> params = new HashMap<String, String>();
-
-        public ToRegisterAsync() {
-
-            /*http://wowads.asia/taxidriver/register.php?
-            newemail=ashish@dkslakds.com&newfullname=dsfsdsaf
-            &newpassword=sdhjlashdh&
-            newphonenumber=324234324&
-            type=androidoriphone&file=phone.jpg&*/
-            params.put("newemail", edtEmail.getText().toString().trim());
-            params.put("newfullname", edtFirstName.getText().toString().trim());
-            params.put("newpassword", edtPwd.getText().toString().trim());
-            params.put("newphonenumber", edtMobile.getText().toString().trim());
-            params.put("type", "androidoriphone");
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(MainActivity.this);
-            dialog.setTitle("Requesting");
-            dialog.setMessage("Wait this may take few seconds..!");
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
-                if (result != null && !result.equalsIgnoreCase("")) {
-                    ResponceAfterRegisterUser(result);
-                } else {
-//                    UIHelper.showToastMessage(ProfileActivity.this, "Something went wrong at server side..!");
-                    Toast.makeText(MainActivity.this, "Something went wrong at server side..!", Toast.LENGTH_LONG).show();
-                }
-            }
-        }
-
-        @Override
-        protected String doInBackground(Void... params0) {
-            String url = getString(R.string.common_url) + getString(R.string.register_service);
-            Log.v("", "ImagePath: " + selectedImagePath + "::" + url);
-            return uploadProfilePic(selectedImagePath, url, params);
-        }
-    }
-
-    /**
      * responce after calling update user web service.
+     *
      * @param jsonResponse
      */
     public void ResponceAfterRegisterUser(String jsonResponse) {
-        Log.v("", "json responce: " + jsonResponse);
+        CustomLog.v("TAXI_REGISTER", "register" + jsonResponse);
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonResponse);
 
-            if (jsonObject!=null) {
+            if (jsonObject != null) {
                 String resStr = jsonObject.getString("responseinfo");
                 Log.v("", "Responce Str: " + resStr);
                 if (resStr.equalsIgnoreCase("Success")) {
 //                    UIHelper.showToastMessage(getApplicationContext(), "Succussfully updated");
                     Toast.makeText(MainActivity.this, "Succussfully registered", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
                 } else if (resStr.equalsIgnoreCase("invalid input")) {
 //                    UIHelper.showToastMessage(ProfileActivity.this,"invalid inputs please check");
                     Toast.makeText(MainActivity.this, "invalid inputs please check", Toast.LENGTH_LONG).show();
-                } else if(resStr.equalsIgnoreCase("Email Exists")){
+                } else if (resStr.equalsIgnoreCase("Email Exists")) {
 //                    UIHelper.showToastMessage(ProfileActivity.this,"email already exist please check");
                     Toast.makeText(MainActivity.this, "email already exist please check", Toast.LENGTH_LONG).show();
                 }
@@ -360,7 +449,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                UIHelper.showToastMessage(getApplicationContext(), "Some thing went wrong at server side");
                 Toast.makeText(MainActivity.this, "Some thing went wrong at server side", Toast.LENGTH_LONG).show();
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -392,7 +481,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //getting http connection
             FileInputStream fis = new FileInputStream(tempFile);
             URL url = new URL(uploadServer);
-            httpConnection = (HttpURLConnection)url.openConnection();
+            httpConnection = (HttpURLConnection) url.openConnection();
             httpConnection.setDoInput(true);
             httpConnection.setDoOutput(true);
             httpConnection.setUseCaches(false);
@@ -405,13 +494,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //uploading user profile pic
             dos = new DataOutputStream(httpConnection.getOutputStream());
             dos.writeBytes(hyphens + boundary + lineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"profile_picture\";filename=\"" + tempFile.getPath() +"\"" + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"profile_picture\";filename=\"" + tempFile.getPath() + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
             bytesAvailable = fis.available();
             bufferSize = Math.min(bytesAvailable, maxBufferSize);
             buffer = new byte[bufferSize];
             bytesRead = fis.read(buffer, 0, bufferSize);
-            while(bytesRead > 0) {
+            while (bytesRead > 0) {
                 dos.write(buffer, 0, bufferSize);
                 bytesAvailable = fis.available();
                 bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -442,20 +531,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
 
             Log.d("", "Responce returned: " + httpConnection.getInputStream());
-            if (responce== null || responce.equalsIgnoreCase("")) {
+            if (responce == null || responce.equalsIgnoreCase("")) {
                 responce = convertStreamToString(httpConnection.getInputStream());
             } else {
                 fis.close();
                 dos.flush();
                 dos.close();
             }
-        } catch(IOException e ) {
+        } catch (IOException e) {
             e.printStackTrace();
             //			Utils.showToast("IO Exception");
         } catch (Exception e) {
             e.printStackTrace();
             //			Utils.showToast("Exception");
-        }finally {
+        } finally {
             tempFile.delete();
         }
 
@@ -463,47 +552,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     /**
-     * decoding bitmap from its path
-     * @param path
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     */
-    public static Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        Bitmap bmp = BitmapFactory.decodeFile(path, options);
-        return bmp;
-    }
-
-    /**
-     * Calculating inSample size
-     * @param options
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            if (width > height) {
-                inSampleSize = Math.round((float) height / (float) reqHeight);
-            } else {
-                inSampleSize = Math.round((float) width / (float) reqWidth);
-            }
-        }
-        return inSampleSize;
-    }
-
-
-    /**
      * creating temp file.
+     *
      * @param filePath
      * @return
      */
@@ -532,6 +582,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     /**
      * converting the inputstream after signup(username webservice)
+     *
      * @param is
      * @return
      */
@@ -560,7 +611,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Log.i("", "Responce convert to stream: " + sb.toString());
         return sb.toString();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -753,5 +803,59 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
         return cursor.getString(column_index);
+    }
+
+    /**
+     * This method call will update the user details
+     */
+
+    class ToRegisterAsync extends AsyncTask<Void, Integer, String> {
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        public ToRegisterAsync() {
+
+            /*http://wowads.asia/taxidriver/register.php?
+            newemail=ashish@dkslakds.com&newfullname=dsfsdsaf
+            &newpassword=sdhjlashdh&
+            newphonenumber=324234324&
+            type=androidoriphone&file=phone.jpg&*/
+            params.put("newemail", edtEmail.getText().toString().trim());
+            params.put("newfullname", edtFirstName.getText().toString().trim());
+            params.put("newpassword", edtPwd.getText().toString().trim());
+            params.put("newphonenumber", edtMobile.getText().toString().trim());
+            params.put("type", "androidoriphone");
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new ProgressDialog(MainActivity.this);
+            dialog.setTitle("Requesting");
+            dialog.setMessage("Wait this may take few seconds..!");
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+                if (result != null && !result.equalsIgnoreCase("")) {
+                    ResponceAfterRegisterUser(result);
+                } else {
+//                    UIHelper.showToastMessage(ProfileActivity.this, "Something went wrong at server side..!");
+                    Toast.makeText(MainActivity.this, "Something went wrong at server side..!", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params0) {
+            String url = getString(R.string.common_url) + getString(R.string.register_service);
+            Log.v("", "ImagePath: " + selectedImagePath + "::" + url);
+            return uploadProfilePic(selectedImagePath, url, params);
+        }
     }
 }

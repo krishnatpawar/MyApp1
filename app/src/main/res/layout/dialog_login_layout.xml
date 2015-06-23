@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:id="@+id/app_login_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,7 +12,9 @@
         android:layout_height="50dp"
         android:drawableLeft="@drawable/login_user"
         android:hint="Email"
+        android:textColor="@color/color_black"
         android:drawablePadding="5dp"
+        android:textColorHint="@color/color_grey"
         android:inputType="textEmailAddress"
         android:padding="10dp" />
 
@@ -22,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/login_email"
-        android:layout_marginTop="5dp"
+        android:textColor="@color/color_black"
+        android:textColorHint="@color/color_grey"
         android:drawablePadding="5dp"
         android:drawableLeft="@drawable/login_password"
         android:hint="Password"
@@ -34,7 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/login_pwd"
-        android:layout_marginTop="5dp"
         android:background="@drawable/ask_btn_selector"
         android:padding="10dp"
         android:text="Login" />
@@ -44,7 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@id/app_login_btn"
-        android:layout_marginTop="5dp"
         android:padding="10dp"
         android:text="Forgot password ?"
         android:textColor="@color/color_grey" />
