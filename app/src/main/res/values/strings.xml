@@ -28,39 +28,26 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
-    <string name="nav_item_bookmyride">BOOK MY RIDE</string>
-    <string name="nav_item_myrides">MY RIDES</string>
-    <string name="nav_item_mymoney">MY MONEY</string>
+    <string name="nav_item_bookmyride">Book My Ride</string>
+    <string name="nav_item_myrides">MyRides</string>
+    <string name="nav_item_mymoney">Wallet</string>
 
-    <string name="nav_item_invite">INITE &amp; EARN </string>
-    <string name="nav_item_ratecard">RATE CARD</string>
-    <string name="nav_item_emergency">EMERGENCY CONTACT</string>
-
-    <string name="nav_item_reportissue">REPORT ISSUE</string>
-    <string name="nav_item_call_support">CALL SUPPORT</string>
-    <string name="nav_item_about">ABOUT</string>
+    <string name="nav_item_logout">Logout </string>
+    <string name="nav_item_about">About</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
-        <item>@string/nav_item_bookmyride</item>
         <item>@string/nav_item_myrides</item>
+        <item>@string/nav_item_bookmyride</item>
         <item>@string/nav_item_mymoney</item>
-        <item>@string/nav_item_invite</item>
-        <item>@string/nav_item_ratecard</item>
-        <item>@string/nav_item_emergency</item>
-        <item>@string/nav_item_reportissue</item>
-        <item>@string/nav_item_call_support</item>
         <item>@string/nav_item_about</item>
+        <item>@string/nav_item_logout</item>
     </string-array>
 
-    <string name="title_mymoney">MyMoney</string>
+    <string name="title_mymoney">Wallet</string>
     <string name="title_rides">MyRides</string>
     <string name="title_bookmyride">BookMyRide</string>
-    <string name="title_invite">Invite&amp;Earn</string>
-    <string name="title_ratecard">RateCard</string>
-    <string name="title_emeregency">Emergency Contact</string>
-    <string name="title_reportissues">port Issue</string>
-    <string name="title_call_support">Ca Support</string>
+    <string name="title_invite">Logout</string>
     <string name="title_about">About</string>
 
     <string name="common_url">http://wowads.asia/taxidriver/</string>

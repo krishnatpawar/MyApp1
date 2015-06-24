@@ -25,6 +25,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,64 +72,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private static final String TAG = MainActivity.class.getName();
     public final String TAG_RESPONSEINFO = "responseinfo";
     public final String TAG_PHONE_INFO = "phonenumber";
+    public final String TAG_USER_ID = "userid";
+    private EditText edtLoginMail;
+    private EditText edtLoginPwd;
     EditText edtFirstName;
     EditText edtLastName;
-    EditText edtEmail;
+    EditText edtMail;
     EditText edtPwd;
     EditText edtMobile;
     private JsonObjectRequest jsonObjectRequest;
     //Views
-    private ViewPager myViewPager;
-    private ViewPagerAdapter adapter;
-    private Button circle1, circle2, circle3, circle4, circle5, circle6, circle7;
-    private int minWidth;
+    private RelativeLayout app_login_layout;
+    private RelativeLayout app_register_layout;
     private int desiredImageWidth = 300, desiredImageHeight = 300;
     private String selectedImagePath = "";
     private Bitmap rotatedBitmap;
     private ImageView imgProfilePic;
     private boolean isFileImageUploaded;
+    private Button btnLogin;
+    private Button btnRegister;
     private ProgressDialog dialog;
-
-    /**
-     * decoding bitmap from its path
-     *
-     * @param path
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     */
-    public static Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) {
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(path, options);
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-        options.inJustDecodeBounds = false;
-        Bitmap bmp = BitmapFactory.decodeFile(path, options);
-        return bmp;
-    }
-
-    /**
-     * Calculating inSample size
-     *
-     * @param options
-     * @param reqWidth
-     * @param reqHeight
-     * @return
-     */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            if (width > height) {
-                inSampleSize = Math.round((float) height / (float) reqHeight);
-            } else {
-                inSampleSize = Math.round((float) width / (float) reqWidth);
-            }
-        }
-        return inSampleSize;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,21 +101,26 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int width = displaymetrics.widthPixels;
-        minWidth = width / 48;
         Log.d("", "screen width: " + width);
         init();
-        setTab();
-
     }
 
     public void registerUser(View v) {
         //startScreen(RegistrationActivity.class);
-        showRegisterDialog();
+        //showRegisterDialog();
+        app_login_layout.setVisibility(View.GONE);
+        app_register_layout.setVisibility(View.VISIBLE);
+        btnRegister.setBackgroundResource(R.drawable.btn_bg_hover);
+        btnLogin.setBackgroundResource(R.drawable.btn_bg);
     }
 
     public void loginUser(View v) {
         //startScreen(LoginActivity.class);
-        showLoginDialog();
+        //showLoginDialog();
+        app_login_layout.setVisibility(View.VISIBLE);
+        app_register_layout.setVisibility(View.GONE);
+        btnRegister.setBackgroundResource(R.drawable.btn_bg);
+        btnLogin.setBackgroundResource(R.drawable.btn_bg_hover);
     }
 
     private void startScreen(Class<?> activity) {
@@ -161,135 +129,33 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         finish();
     }
 
-    private void setTab() {
-        myViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrollStateChanged(int position) {
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                // TODO Auto-generated method stub
-                btnAction(position);
-            }
-
-        });
-
-    }
-
-    private void btnAction(int action) {
-        switch (action) {
-            case 0:
-                setButton(circle1, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-
-            case 1:
-                setButton(circle2, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-
-            case 2:
-                setButton(circle3, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-            case 3:
-                setButton(circle4, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-            case 4:
-                setButton(circle5, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-
-            case 5:
-                setButton(circle6, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-
-            case 6:
-                setButton(circle7, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-                setButton(circle1, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-                break;
-
-
-        }
-    }
-
     /**
      * initializing views
      */
     private void init() {
-        myViewPager = (ViewPager) findViewById(R.id.pager);
-        adapter = new ViewPagerAdapter(getApplicationContext(), getSupportFragmentManager());
-        myViewPager.setAdapter(adapter);
-        myViewPager.setCurrentItem(0);
-        initButton();
-    }
+        app_login_layout = (RelativeLayout) findViewById(R.id.app_login_layout);
+        app_register_layout = (RelativeLayout) findViewById(R.id.app_register_layout);
 
-    private void initButton() {
-        circle1 = (Button) findViewById(R.id.btn1);
-        circle2 = (Button) findViewById(R.id.btn2);
-        circle3 = (Button) findViewById(R.id.btn3);
-        circle4 = (Button) findViewById(R.id.btn4);
-        circle5 = (Button) findViewById(R.id.btn5);
-        circle6 = (Button) findViewById(R.id.btn6);
-        circle7 = (Button) findViewById(R.id.btn7);
-        setButton(circle1, "", minWidth + 3, minWidth + 3, R.drawable.selected_circle);
-        setButton(circle2, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-        setButton(circle3, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-        setButton(circle4, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-        setButton(circle5, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-        setButton(circle6, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-        setButton(circle7, "", minWidth + 2, minWidth + 2, R.drawable.unselected_circle);
-    }
+        btnLogin = (Button) findViewById(R.id.login_btn);
+        btnRegister = (Button) findViewById(R.id.signup_btn);
 
-    private void setButton(Button btn, String text, int h, int w, int selectedCircle) {
-        btn.setWidth(w);
-        btn.setHeight(h);
-        btn.setBackgroundResource(selectedCircle);
+        edtLoginMail = (EditText) findViewById(R.id.login_email);
+        edtLoginPwd = (EditText) findViewById(R.id.login_pwd);
+        Button btnLogin = (Button) findViewById(R.id.app_login_btn);
+        TextView tvForgot = (TextView) findViewById(R.id.app_forgot);
 
-        btn.setText(text);
+        edtFirstName = (EditText) findViewById(R.id.register_fname);
+        edtLastName = (EditText) findViewById(R.id.register_lname);
+        edtMail = (EditText) findViewById(R.id.register_email);
+        edtPwd = (EditText) findViewById(R.id.register_pwd);
+        edtMobile = (EditText) findViewById(R.id.register_mobile);
+        Button btnRegister = (Button) findViewById(R.id.app_register_btn);
+        btnRegister.setOnClickListener(this);
+        imgProfilePic = (ImageView) findViewById(R.id.register_profile_pic);
+        imgProfilePic.setOnClickListener(this);
+
+        btnLogin.setOnClickListener(this);
+        tvForgot.setOnClickListener(this);
     }
 
     private void showLoginDialog() {
@@ -371,11 +237,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         try {
             String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
             String resPhnum = jsonObject.getString(TAG_PHONE_INFO);
+            String userId = jsonObject.getString(TAG_USER_ID);
             if (responseInfo.isEmpty()) {
                 return;
             }
             if (responseInfo.equalsIgnoreCase("success")) {
                 Preferences.setUserPhNum(getApplicationContext(), resPhnum);
+                Preferences.setUserId(getApplicationContext(), userId);
                 startScreen(HomeScreenActivity.class);
                 finish();
             }
@@ -384,7 +252,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    private void showRegisterDialog() {
+    /*private void showRegisterDialog() {
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_register_layout);
@@ -398,7 +266,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         imgProfilePic = (ImageView) dialog.findViewById(R.id.register_profile_pic);
         imgProfilePic.setOnClickListener(this);
         dialog.show();
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -408,15 +276,80 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.app_register_btn:
-                if (isFileImageUploaded) {
-                    new ToRegisterAsync().execute();
-                } else {
-//                    serviceToUpdateUserDetails();
-                }
+                registerUser();
+                break;
+            case R.id.app_login_btn:
+                loginUser();
+                break;
+            case R.id.app_forgot:
+                Toast.makeText(getApplicationContext(), "Yet to implement..!", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
         }
+    }
+
+    private void loginUser() {
+        String mailStr = edtLoginMail.getText().toString().trim();
+        String pwdStr = edtLoginPwd.getText().toString().trim();
+        if (!AppUtils.chkStatus(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (mailStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!AppUtils.isValidEmail(mailStr)) {
+            Toast.makeText(MainActivity.this, "Please enter valied email", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (pwdStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter password", Toast.LENGTH_LONG).show();
+            return;
+        }
+        serviceToLogin(mailStr, pwdStr);
+    }
+
+    private void registerUser() {
+        String fName = edtFirstName.getText().toString().trim();
+        String lName = edtLastName.getText().toString().trim();
+        String mailStr = edtMail.getText().toString().trim();
+        String pwdStr = edtPwd.getText().toString().trim();
+        String phNumStr = edtMobile.getText().toString().trim();
+        if (!AppUtils.chkStatus(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (fName.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter firstname", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (lName.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter last name", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (mailStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!AppUtils.isValidEmail(mailStr)) {
+            Toast.makeText(MainActivity.this, "Please enter valied email", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (pwdStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter password", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (phNumStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter Phone number", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!isFileImageUploaded) {
+            Toast.makeText(MainActivity.this, "Please pic your image", Toast.LENGTH_LONG).show();
+            return;
+        }
+        new ToRegisterAsync().execute();
     }
 
     /**
@@ -820,7 +753,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             &newpassword=sdhjlashdh&
             newphonenumber=324234324&
             type=androidoriphone&file=phone.jpg&*/
-            params.put("newemail", edtEmail.getText().toString().trim());
+            params.put("newemail", edtMail.getText().toString().trim());
             params.put("newfullname", edtFirstName.getText().toString().trim());
             params.put("newpassword", edtPwd.getText().toString().trim());
             params.put("newphonenumber", edtMobile.getText().toString().trim());
@@ -857,5 +790,46 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Log.v("", "ImagePath: " + selectedImagePath + "::" + url);
             return uploadProfilePic(selectedImagePath, url, params);
         }
+    }
+
+    /**
+     * decoding bitmap from its path
+     *
+     * @param path
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        Bitmap bmp = BitmapFactory.decodeFile(path, options);
+        return bmp;
+    }
+
+    /**
+     * Calculating inSample size
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            if (width > height) {
+                inSampleSize = Math.round((float) height / (float) reqHeight);
+            } else {
+                inSampleSize = Math.round((float) width / (float) reqWidth);
+            }
+        }
+        return inSampleSize;
     }
 }

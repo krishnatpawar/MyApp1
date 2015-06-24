@@ -1,10 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    android:background="@drawable/splash_bg">
+    <TextView
+        android:id="@+id/splash_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:text="INSTANT TAXI"
+        android:textColor="@color/color_black"
+        android:textSize="30sp" />
 
+    <!--
     <View
         android:id="@+id/central_splsh_view"
         android:layout_width="match_parent"
@@ -41,5 +50,6 @@
         android:textColor="@color/color_white"
         android:textSize="20sp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/splash_navig_imgs" />
+        android:layout_below="@id/splash_navig_imgs" />-->
+
 </RelativeLayout>

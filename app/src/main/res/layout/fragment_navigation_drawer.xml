@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_alignParentTop="true"
-        android:background="#BDBDBD">
+        android:background="@color/menu_bg">
 
         <ImageView
             android:id="@+id/profile_img"
@@ -46,7 +46,7 @@
                 android:layout_centerVertical="true"
                 android:padding="5dp"
                 android:text="User Name"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_light"
                 android:textSize="@dimen/app_text_title" />
             <TextView
                 android:id="@+id/user_ph_num"
@@ -55,7 +55,7 @@
                 android:layout_centerVertical="true"
                 android:padding="5dp"
                 android:text="0123456789"
-                android:textColor="@color/color_white"
+                android:textColor="@color/color_light"
                 android:textSize="@dimen/app_text_title" />
         </LinearLayout>
     </RelativeLayout>

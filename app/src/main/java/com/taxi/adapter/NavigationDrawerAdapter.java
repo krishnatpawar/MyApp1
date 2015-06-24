@@ -1,11 +1,13 @@
 package com.taxi.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.taxi.R;
@@ -13,8 +15,6 @@ import com.taxi.bean.NavDrawerItem;
 
 import java.util.Collections;
 import java.util.List;
-
-
 
 
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.MyViewHolder> {
@@ -44,7 +44,9 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     public void onBindViewHolder(MyViewHolder holder, int position) {
         NavDrawerItem current = data.get(position);
         holder.title.setText(current.getTitle());
-        holder.img.setImageResource(current.getImgResource());
+        if (current.getImgResource() != 0)
+            holder.img.setImageResource(current.getImgResource());;
+        //holder.img.setImageAlpha(1);
     }
 
     @Override
@@ -55,11 +57,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         ImageView img;
+        RelativeLayout navMenu;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.title);
             img = (ImageView) itemView.findViewById(R.id.nav_row_image);
+            navMenu = (RelativeLayout) itemView.findViewById(R.id.nav_menu_item_layout);
         }
     }
 }

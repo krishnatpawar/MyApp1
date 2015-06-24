@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.taxi.fragments.EarnRewardsFragment;
 import com.taxi.fragments.OlaCaresFragment;
 import com.taxi.fragments.RideCashlessFragment;
 import com.taxi.fragments.RideNowFragment;
@@ -14,8 +13,8 @@ import com.taxi.fragments.StayInformedFragment;
 import com.taxi.fragments.TaxiIconFragment;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private Context _context;
     public static int totalPage = 7;
+    private Context _context;
 
     public ViewPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -44,9 +43,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 break;
             case 5:
                 f = OlaCaresFragment.newInstance(_context);
-                break;
-            case 6:
-                f = EarnRewardsFragment.newInstance(_context);
                 break;
         }
         return f;

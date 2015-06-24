@@ -2,6 +2,7 @@ package com.taxi.fragments;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -69,12 +70,11 @@ public class FragmentDrawer extends Fragment {
 
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
-        images = new int[]{R.drawable.booking_icon,
-                R.drawable.myrides_icon,
+        images = new int[]{R.drawable.myrides_icon,
+                R.drawable.booking_over_icon,
                 R.drawable.ola_icon,
-                R.drawable.invite_icon,
-                R.drawable.rate_icon, R.drawable.emergency_icon, R.drawable.report_icon,
-                R.drawable.call_su_icon, R.drawable.about_icon};
+                R.drawable.about_icon,
+                R.drawable.call_su_icon};
     }
 
     @Override
@@ -92,6 +92,9 @@ public class FragmentDrawer extends Fragment {
             public void onClick(View view, int position) {
                 drawerListener.onDrawerItemSelected(view, position);
                 mDrawerLayout.closeDrawer(containerView);
+                containerView.setBackgroundResource(R.color.menu_bg);
+               // holder.title.setTextColor(Color.WHITE);
+
             }
 
             @Override
@@ -188,5 +191,7 @@ public class FragmentDrawer extends Fragment {
         public void onTouchEvent(RecyclerView rv, MotionEvent e) {
         }
     }
+
+
 
 }

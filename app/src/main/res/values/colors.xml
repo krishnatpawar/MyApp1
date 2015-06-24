@@ -15,4 +15,7 @@
     <color name="color_blue">#5882FA70</color>
 
     <color name="menu_colo_text">#E6E6E6</color>
+    <color name="color_home_btn">#C8FE2E</color>
+
+    <color name="menu_bg">#0A3F55</color>
 </resources>
