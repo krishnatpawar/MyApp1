@@ -29,10 +29,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonObject;
 import com.taxi.R;
 import com.taxi.adapter.ViewPagerAdapter;
 import com.taxi.application.AppConfig;
@@ -162,14 +166,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login_layout);
-        final EditText edtMail = (EditText) dialog.findViewById(R.id.login_email);
+        final EditText edMail = (EditText) dialog.findViewById(R.id.login_email);
         final EditText edttPwd = (EditText) dialog.findViewById(R.id.login_pwd);
         Button btnLogin = (Button) dialog.findViewById(R.id.app_login_btn);
         TextView tvForgot = (TextView) dialog.findViewById(R.id.app_forgot);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mailStr = edtMail.getText().toString().trim();
+                String mailStr = edMail.getText().toString().trim();
                 String pwdStr = edttPwd.getText().toString().trim();
                 if (!AppUtils.chkStatus(MainActivity.this)) {
                     Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
@@ -193,12 +197,82 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         tvForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Yet to implement..!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(MainActivity.this, "Yet to implement..!", Toast.LENGTH_LONG).show();
+                String mailStr = edMail.getText().toString().trim();
+
+                if (!AppUtils.chkStatus(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (mailStr.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                serviceToForget(mailStr);
             }
         });
         dialog.show();
     }
 
+    private void serviceToForget(final String mailStr){
+
+
+        String url = Webservices.BASE_URL+Webservices.FORGET_URL;
+
+       final ProgressDialog pd = new ProgressDialog(MainActivity.this);
+        pd.setTitle("Requesting...");
+        pd.setMessage("Forget password requesting...Wait");
+        pd.setCancelable(false);
+        pd.show();
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        forgetResponse(response);
+                        pd.dismiss();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                pd.hide();
+                AppConfig.getInstance().cancelPendingRequests("taxi_forget");
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                final Map<String,String> params = new HashMap<String,String>();
+                params.put("email", mailStr);
+                return params;
+            }
+
+        };
+        AppConfig.getInstance().addToRequestque(jsonObjectRequest, "taxi_forget");
+    }
+
+    private void forgetResponse(JSONObject jsonObject) {
+        CustomLog.v("TAXI_FORGET", "forget" + jsonObject);
+        try {
+            String responseInfo = jsonObject.getString(TAG_RESPONSEINFO);
+            if (responseInfo.isEmpty()) {
+                return;
+            }
+            if (responseInfo.equalsIgnoreCase("success")) {
+                Toast.makeText(MainActivity.this, "Sending pwd to mail succeeded", Toast.LENGTH_LONG).show();
+            }else if(responseInfo.equalsIgnoreCase("failure")){
+                Toast.makeText(MainActivity.this, "Sending pwd to mail failed", Toast.LENGTH_LONG).show();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(MainActivity.this, "Something went wrong server side", Toast.LENGTH_LONG).show();
+        }
+    }
     private void serviceToLogin(String email, String pwd) {
         String url = Webservices.BASE_URL + Webservices.LOGIN_URL + "?email=" + email + "&password=" + pwd;
 
@@ -282,7 +356,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 loginUser();
                 break;
             case R.id.app_forgot:
-                Toast.makeText(getApplicationContext(), "Yet to implement..!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Yet to implement..!", Toast.LENGTH_SHORT).show();
+
+                String mailStr = "gv@gmail.com";
+
+                if (!AppUtils.chkStatus(MainActivity.this)) {
+                    Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if (mailStr.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                serviceToForget(mailStr);
                 break;
             default:
                 break;
