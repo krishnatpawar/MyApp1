@@ -1,7 +1,6 @@
 <resources>
 
 
-
     <style name="MyMaterialTheme" parent="MyMaterialTheme.Base">
 
     </style>
@@ -16,5 +15,10 @@
         <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
+    <style name="MapActionBar" parent="MapActionBar.base"></style>
+
+    <style name="MapActionBar.base" parent="Theme.AppCompat.Light">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
 
 </resources>

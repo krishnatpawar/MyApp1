@@ -1,5 +1,6 @@
 package com.taxi.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -84,11 +85,14 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         switch (position) {
             case 0:
                 fragment = new MyRidesFragment();
-                title = getString(R.string.title_bookmyride);
+                title = getString(R.string.title_rides);
+
                 break;
             case 1:
-                fragment = new BookMyRideFragment();
-                title = getString(R.string.title_rides);
+                Intent intent = new Intent(getApplicationContext(), MapActicity.class);
+                startActivity(intent);
+                /*fragment = new HomeFragment();
+                title = "";*/
                 break;
             case 2:
                 fragment = new MyMoneyFragment();
@@ -107,15 +111,18 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_body, fragment);
-            fragmentTransaction.commit();
-
-            // set the toolbar title
-            getSupportActionBar().setTitle(title);
+           gotoFragment(fragment, title);
         }
     }
 
+    private void gotoFragment(Fragment fragment, String title) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_body, fragment);
+        fragmentTransaction.commit();
+
+        // set the toolbar title
+        getSupportActionBar().setTitle(title);
+    }
 
 }

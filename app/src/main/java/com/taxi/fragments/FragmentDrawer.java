@@ -41,6 +41,7 @@ public class FragmentDrawer extends Fragment {
     private View containerView;
     private static int[] images = null;
     private FragmentDrawerListener drawerListener;
+    private int temp;
 
     public FragmentDrawer() {
 
@@ -92,9 +93,15 @@ public class FragmentDrawer extends Fragment {
             public void onClick(View view, int position) {
                 drawerListener.onDrawerItemSelected(view, position);
                 mDrawerLayout.closeDrawer(containerView);
-                containerView.setBackgroundResource(R.color.menu_bg);
+                //containerView.setBackgroundResource(R.color.menu_bg);
                // holder.title.setTextColor(Color.WHITE);
 
+                if(position != temp) {
+                    recyclerView.getChildAt(position).setBackgroundResource(R.color.menu_bg);
+                }
+                recyclerView.getChildAt(temp).setBackgroundResource(R.color.color_grey);
+
+                temp = position;
             }
 
             @Override

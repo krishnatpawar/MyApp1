@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:id="@+id/nav_menu_item_layout"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="true"
     android:clickable="true">
 
     <ImageView
