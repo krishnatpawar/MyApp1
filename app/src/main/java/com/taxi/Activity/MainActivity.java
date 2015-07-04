@@ -16,6 +16,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -66,8 +67,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+
+public class MainActivity extends FragmentActivity{
 
     //Constants
 
@@ -77,30 +82,50 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public final String TAG_RESPONSEINFO = "responseinfo";
     public final String TAG_PHONE_INFO = "phonenumber";
     public final String TAG_USER_ID = "userid";
-    private EditText edtLoginMail;
-    private EditText edtLoginPwd;
-    EditText edtFirstName;
-    EditText edtLastName;
-    EditText edtMail;
-    EditText edtPwd;
-    EditText edtMobile;
+
+    @NonNull @Bind(R.id.login_email)  EditText edtLoginMail;
+    @NonNull @Bind(R.id.login_pwd)  EditText edtLoginPwd;
+    @NonNull @Bind(R.id.app_forgot)  TextView tvForgot;
+    @NonNull @Bind(R.id.app_login_btn) Button btnLogin;
+
+    @NonNull @Bind(R.id.register_fname) EditText edtFirstName;
+    @NonNull @Bind(R.id.register_lname) EditText edtLastName;
+    @NonNull @Bind(R.id.register_email) EditText edtMail;
+    @NonNull @Bind(R.id.register_pwd) EditText edtPwd;
+    @NonNull @Bind(R.id.register_mobile)  EditText edtMobile;
+    @NonNull @Bind(R.id.register_profile_pic) ImageView imgProfilePic;
+    @NonNull @Bind(R.id.signup_btn) Button btnRegister;
+
+    @NonNull @Bind(R.id.app_login_layout) RelativeLayout app_login_layout;
+    @NonNull @Bind(R.id.app_register_layout) RelativeLayout app_register_layout;
+
+    private ProgressDialog dialog;
+
     private JsonObjectRequest jsonObjectRequest;
-    //Views
-    private RelativeLayout app_login_layout;
-    private RelativeLayout app_register_layout;
+
     private int desiredImageWidth = 300, desiredImageHeight = 300;
     private String selectedImagePath = "";
     private Bitmap rotatedBitmap;
-    private ImageView imgProfilePic;
     private boolean isFileImageUploaded;
-    private Button btnLogin;
-    private Button btnRegister;
-    private ProgressDialog dialog;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppConfig.setCurentContext(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.setCurentContext(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        ButterKnife.bind(this);
+        AppConfig.setCurentContext(this);
 //		instance = this;
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -137,7 +162,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      * initializing views
      */
     private void init() {
-        app_login_layout = (RelativeLayout) findViewById(R.id.app_login_layout);
+       /* app_login_layout = (RelativeLayout) findViewById(R.id.app_login_layout);
         app_register_layout = (RelativeLayout) findViewById(R.id.app_register_layout);
 
         btnLogin = (Button) findViewById(R.id.login_btn);
@@ -159,22 +184,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         imgProfilePic.setOnClickListener(this);
 
         btnLogin.setOnClickListener(this);
-        tvForgot.setOnClickListener(this);
+        tvForgot.setOnClickListener(this);*/
     }
 
-    private void showLoginDialog() {
+    /*private void showLonDialog() {
         Dialog dialog = new Dialog(MainActivity.this);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_login_layout);
-        final EditText edMail = (EditText) dialog.findViewById(R.id.login_email);
-        final EditText edttPwd = (EditText) dialog.findViewById(R.id.login_pwd);
         Button btnLogin = (Button) dialog.findViewById(R.id.app_login_btn);
-        TextView tvForgot = (TextView) dialog.findViewById(R.id.app_forgot);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mailStr = edMail.getText().toString().trim();
-                String pwdStr = edttPwd.getText().toString().trim();
+                String mailStr = getText(edtLoginMail);
+                String pwdStr = getText(edtLoginPwd);
                 if (!AppUtils.chkStatus(MainActivity.this)) {
                     Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
                     return;
@@ -194,29 +216,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 serviceToLogin(mailStr, pwdStr);
             }
         });
-        tvForgot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this, "Yet to implement..!", Toast.LENGTH_LONG).show();
-                String mailStr = edMail.getText().toString().trim();
-
-                if (!AppUtils.chkStatus(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (mailStr.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                serviceToForget(mailStr);
-            }
-        });
         dialog.show();
-    }
+    }*/
+    @OnClick(R.id.app_forgot)
+    public void serviceToForget(){
+        //TODO change this
+        final String mailStr = "gv@gv.com";
 
-    private void serviceToForget(final String mailStr){
-
-
+        if (!AppUtils.chkStatus(MainActivity.this)) {
+            Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (mailStr.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
+            return;
+        }
         String url = Webservices.BASE_URL+Webservices.FORGET_URL;
 
        final ProgressDialog pd = new ProgressDialog(MainActivity.this);
@@ -225,7 +239,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         pd.setCancelable(false);
         pd.show();
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {
 
@@ -342,42 +356,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         dialog.show();
     }*/
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.register_profile_pic:
-                selectImage();
-                break;
-
-            case R.id.app_register_btn:
-                registerUser();
-                break;
-            case R.id.app_login_btn:
-                loginUser();
-                break;
-            case R.id.app_forgot:
-//                Toast.makeText(getApplicationContext(), "Yet to implement..!", Toast.LENGTH_SHORT).show();
-
-                String mailStr = "gv@gmail.com";
-
-                if (!AppUtils.chkStatus(MainActivity.this)) {
-                    Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (mailStr.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                serviceToForget(mailStr);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void loginUser() {
-        String mailStr = edtLoginMail.getText().toString().trim();
-        String pwdStr = edtLoginPwd.getText().toString().trim();
+    @OnClick(R.id.app_login_btn)
+    public void loginUser() {
+        String mailStr = getText(edtLoginMail);
+        String pwdStr = getText(edtLoginPwd);
         if (!AppUtils.chkStatus(MainActivity.this)) {
             Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
             return;
@@ -397,12 +379,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         serviceToLogin(mailStr, pwdStr);
     }
 
-    private void registerUser() {
-        String fName = edtFirstName.getText().toString().trim();
-        String lName = edtLastName.getText().toString().trim();
-        String mailStr = edtMail.getText().toString().trim();
-        String pwdStr = edtPwd.getText().toString().trim();
-        String phNumStr = edtMobile.getText().toString().trim();
+    private String getText(@NonNull EditText edt) {
+        return edt.getText().toString().trim();
+    }
+
+    @OnClick(R.id.app_register_btn)
+    public void registerUser() {
+        String fName = getText(edtFirstName);
+        String lName = getText(edtLastName);
+        String mailStr = getText(edtMail);
+        String pwdStr = getText(edtPwd);
+        String phNumStr = getText(edtMobile);
         if (!AppUtils.chkStatus(MainActivity.this)) {
             Toast.makeText(MainActivity.this, "Check network connection", Toast.LENGTH_LONG).show();
             return;
@@ -652,8 +639,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             return false;
     }
 
-    private void selectImage() {
-
+    @OnClick(R.id.register_profile_pic)
+    public void selectImage() {
         final CharSequence[] options = {"Capture From Camera", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Upload Photo");
@@ -742,9 +729,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 cursor.close();
-                //				savebitmap(selectedImage.getPath(), rotatedBitmap);
-                //				setBitmap(rotatedBitmap);
-                //				img_view.setImageBitmap(model.getBitmap());
                 imgProfilePic.setImageBitmap(rotatedBitmap);
                 isFileImageUploaded = true;
             } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
@@ -804,9 +788,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     e.printStackTrace();
                     bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo_main);
                 }
-                //				savebitmap(selectedImagePath, rotatedBitmap);
-                //				model.setBitmap(rotatedBitmap);
-                //				img_view.setImageBitmap(model.getBitmap());
                 imgProfilePic.setImageBitmap(rotatedBitmap);
                 isFileImageUploaded = true;
             }
@@ -833,16 +814,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Map<String, String> params = new HashMap<String, String>();
 
         public ToRegisterAsync() {
-
-            /*http://wowads.asia/taxidriver/register.php?
-            newemail=ashish@dkslakds.com&newfullname=dsfsdsaf
-            &newpassword=sdhjlashdh&
-            newphonenumber=324234324&
-            type=androidoriphone&file=phone.jpg&*/
-            params.put("newemail", edtMail.getText().toString().trim());
-            params.put("newfullname", edtFirstName.getText().toString().trim());
-            params.put("newpassword", edtPwd.getText().toString().trim());
-            params.put("newphonenumber", edtMobile.getText().toString().trim());
+            params.put("newemail", getText(edtMail));
+            params.put("newfullname", getText(edtFirstName));
+            params.put("newpassword", getText(edtPwd));
+            params.put("newphonenumber", getText(edtMobile));
             params.put("type", "androidoriphone");
         }
 

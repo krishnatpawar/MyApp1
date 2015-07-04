@@ -39,7 +39,7 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         init();
-
+        AppConfig.setCurentContext(this);
         edEmail.setOnFocusChangeListener(this);
         edPwd.setOnFocusChangeListener(this);
     }
@@ -152,5 +152,16 @@ public class LoginActivity extends AbstractTaxiActivity implements View.OnFocusC
         showMessage("Coming soon");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.setCurentContext(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppConfig.setCurentContext(this);
+    }
 }
 

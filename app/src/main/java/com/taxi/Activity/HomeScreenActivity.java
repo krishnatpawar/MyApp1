@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.taxi.R;
+import com.taxi.application.AppConfig;
 import com.taxi.fragments.AboutFragment;
 import com.taxi.fragments.BookMyRideFragment;
 import com.taxi.fragments.FragmentDrawer;
@@ -35,7 +36,7 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-
+        AppConfig.setCurentContext(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
@@ -125,4 +126,15 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         getSupportActionBar().setTitle(title);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.setCurentContext(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppConfig.setCurentContext(this);
+    }
 }

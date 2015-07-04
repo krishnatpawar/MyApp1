@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.taxi.R;
+import com.taxi.application.AppConfig;
 import com.taxi.utils.CustomLog;
 
 import java.text.DateFormat;
@@ -111,6 +112,7 @@ public class MapActicity extends ActionBarActivity implements GoogleApiClient.On
         if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
             startLocationUpdates();
         }
+        AppConfig.setCurentContext(this);
     }
 
     /**
@@ -275,18 +277,18 @@ public class MapActicity extends ActionBarActivity implements GoogleApiClient.On
         StringBuilder tempLocation = new StringBuilder();
         tempLocation.append(address.getAddressLine(0));
         tempLocation.append(","+address.getAddressLine(1));
-        tempLocation.append(","+address.getAddressLine(2));
-        tempLocation.append(","+address.getAddressLine(3));
+        tempLocation.append("," + address.getAddressLine(2));
+        tempLocation.append("," + address.getAddressLine(3));
         return tempLocation.toString();
 
     }
-
 
     protected void onStart() {
         super.onStart();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+        AppConfig.setCurentContext(this);
     }
 
     protected void onStop() {
@@ -295,6 +297,5 @@ public class MapActicity extends ActionBarActivity implements GoogleApiClient.On
             mGoogleApiClient.disconnect();
         }
     }
-
 
 }

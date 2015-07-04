@@ -1,6 +1,7 @@
 package com.taxi.application;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -18,6 +19,7 @@ public class AppConfig extends Application {
     private String TAG = "taxi_app";
     private RequestQueue requestQueue;
     private RestAdapter restAdapter;
+    private static Context mContext;
 
     public static AppConfig getInstance() {
         return mInstance;
@@ -52,9 +54,18 @@ public class AppConfig extends Application {
         getRequestque().add(tag);
     }
 
+    public static Context getCurrentContext() {
+        return mContext;
+    }
+
+    public static void setCurentContext(Context mContext) {
+        AppConfig.mContext = mContext;
+    }
+
     public <T> void addToRequestque(Request<T> tag, String str) {
         tag.setTag(TextUtils.isEmpty(str) ? TAG : str);
         getRequestque().add(tag);
     }
+
 
 }

@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.taxi.R;
+import com.taxi.application.AppConfig;
 import com.taxi.utils.Preferences;
 
 public class SplashActivity extends AbstractTaxiActivity {
@@ -15,7 +16,7 @@ public class SplashActivity extends AbstractTaxiActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        AppConfig.setCurentContext(this);
         if (!Preferences.getUserId(SplashActivity.this).isEmpty()) {
             loginIntoApp(HomeScreenActivity.class);
         } else {
@@ -38,4 +39,15 @@ public class SplashActivity extends AbstractTaxiActivity {
         }).start();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.setCurentContext(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppConfig.setCurentContext(this);
+    }
 }

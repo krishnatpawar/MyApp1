@@ -52,6 +52,7 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        AppConfig.setCurentContext(this);
         init();
         edEmail.setOnFocusChangeListener(this);
         edSetPwd.setOnFocusChangeListener(this);
@@ -259,6 +260,18 @@ public class RegistrationActivity extends AbstractTaxiActivity implements View.O
         } catch(JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppConfig.setCurentContext(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        AppConfig.setCurentContext(this);
     }
 }
 
