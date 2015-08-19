@@ -23,10 +23,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +74,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class MainActivity extends FragmentActivity{
+public class MainActivity extends FragmentActivity {
 
     //Constants
 
@@ -83,21 +85,53 @@ public class MainActivity extends FragmentActivity{
     public final String TAG_PHONE_INFO = "phonenumber";
     public final String TAG_USER_ID = "userid";
 
-    @NonNull @Bind(R.id.login_email)  EditText edtLoginMail;
-    @NonNull @Bind(R.id.login_pwd)  EditText edtLoginPwd;
-    @NonNull @Bind(R.id.app_forgot)  TextView tvForgot;
-    @NonNull @Bind(R.id.app_login_btn) Button btnLogin;
+    @NonNull
+    @Bind(R.id.login_email)
+    EditText edtLoginMail;
+    @NonNull
+    @Bind(R.id.login_pwd)
+    EditText edtLoginPwd;
+    @NonNull
+    @Bind(R.id.app_forgot)
+    TextView tvForgot;
+    @NonNull
+    @Bind(R.id.app_login_btn)
+    Button btnLogin;
 
-    @NonNull @Bind(R.id.register_fname) EditText edtFirstName;
-    @NonNull @Bind(R.id.register_lname) EditText edtLastName;
-    @NonNull @Bind(R.id.register_email) EditText edtMail;
-    @NonNull @Bind(R.id.register_pwd) EditText edtPwd;
-    @NonNull @Bind(R.id.register_mobile)  EditText edtMobile;
-    @NonNull @Bind(R.id.register_profile_pic) ImageView imgProfilePic;
-    @NonNull @Bind(R.id.signup_btn) Button btnRegister;
+    @NonNull
+    @Bind(R.id.register_fname)
+    EditText edtFirstName;
+    @NonNull
+    @Bind(R.id.register_lname)
+    EditText edtLastName;
+    @NonNull
+    @Bind(R.id.register_email)
+    EditText edtMail;
+    @NonNull
+    @Bind(R.id.register_pwd)
+    EditText edtPwd;
+    @NonNull
+    @Bind(R.id.register_mobile)
+    EditText edtMobile;
+    @NonNull
+    @Bind(R.id.register_profile_pic)
+    ImageView imgProfilePic;
+    @NonNull
+    @Bind(R.id.signup_btn)
+    Button btnRegister;
 
-    @NonNull @Bind(R.id.app_login_layout) RelativeLayout app_login_layout;
-    @NonNull @Bind(R.id.app_register_layout) RelativeLayout app_register_layout;
+    @NonNull
+    @Bind(R.id.app_login_layout)
+    RelativeLayout app_login_layout;
+    @NonNull
+    @Bind(R.id.app_register_layout)
+    RelativeLayout app_register_layout;
+
+    @Bind(R.id.login_llayout)
+    ScrollView loginScrollViewLayout;
+
+    @Bind(R.id.register_llayout)
+    ScrollView registerScrollViewLayout;
 
     private ProgressDialog dialog;
 
@@ -123,29 +157,31 @@ public class MainActivity extends FragmentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         AppConfig.setCurentContext(this);
-//		instance = this;
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int width = displaymetrics.widthPixels;
-        Log.d("", "screen width: " + width);
         init();
     }
 
     public void registerUser(View v) {
         //startScreen(RegistrationActivity.class);
         //showRegisterDialog();
+        loginScrollViewLayout.setVisibility(View.GONE);
+        registerScrollViewLayout.setVisibility(View.VISIBLE);
         app_login_layout.setVisibility(View.GONE);
         app_register_layout.setVisibility(View.VISIBLE);
         btnRegister.setBackgroundResource(R.drawable.btn_bg_hover);
         btnLogin.setBackgroundResource(R.drawable.btn_bg);
+        Log.v("main", "register");
     }
 
     public void loginUser(View v) {
         //startScreen(LoginActivity.class);
         //showLoginDialog();
+        Log.v("main", "login");
+        loginScrollViewLayout.setVisibility(View.VISIBLE);
+        registerScrollViewLayout.setVisibility(View.GONE);
         app_login_layout.setVisibility(View.VISIBLE);
         app_register_layout.setVisibility(View.GONE);
         btnRegister.setBackgroundResource(R.drawable.btn_bg);
@@ -219,7 +255,7 @@ public class MainActivity extends FragmentActivity{
         dialog.show();
     }*/
     @OnClick(R.id.app_forgot)
-    public void serviceToForget(){
+    public void serviceToForget() {
         //TODO change this
         final String mailStr = "gv@gv.com";
 
@@ -231,9 +267,9 @@ public class MainActivity extends FragmentActivity{
             Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_LONG).show();
             return;
         }
-        String url = Webservices.BASE_URL+Webservices.FORGET_URL;
+        String url = Webservices.BASE_URL + Webservices.FORGET_URL;
 
-       final ProgressDialog pd = new ProgressDialog(MainActivity.this);
+        final ProgressDialog pd = new ProgressDialog(MainActivity.this);
         pd.setTitle("Requesting...");
         pd.setMessage("Forget password requesting...Wait");
         pd.setCancelable(false);
@@ -261,7 +297,7 @@ public class MainActivity extends FragmentActivity{
 
             @Override
             protected Map<String, String> getParams() {
-                final Map<String,String> params = new HashMap<String,String>();
+                final Map<String, String> params = new HashMap<String, String>();
                 params.put("email", mailStr);
                 return params;
             }
@@ -279,7 +315,7 @@ public class MainActivity extends FragmentActivity{
             }
             if (responseInfo.equalsIgnoreCase("success")) {
                 Toast.makeText(MainActivity.this, "Sending pwd to mail succeeded", Toast.LENGTH_LONG).show();
-            }else if(responseInfo.equalsIgnoreCase("failure")){
+            } else if (responseInfo.equalsIgnoreCase("failure")) {
                 Toast.makeText(MainActivity.this, "Sending pwd to mail failed", Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
@@ -287,8 +323,10 @@ public class MainActivity extends FragmentActivity{
             Toast.makeText(MainActivity.this, "Something went wrong server side", Toast.LENGTH_LONG).show();
         }
     }
+
     private void serviceToLogin(String email, String pwd) {
-        String url = Webservices.BASE_URL + Webservices.LOGIN_URL + "?email=" + email + "&password=" + pwd;
+        String url = Webservices.BASE_URL + Webservices.LOGIN_URL +
+                "?email=" + email + "&password=" + pwd;
 
 
         final ProgressDialog pd = new ProgressDialog(MainActivity.this);

@@ -14,5 +14,7 @@
     <dimen name="app_text_normal">16sp</dimen>
     <dimen name="app_text_title">18sp</dimen>
 
+    <dimen name="app_logo_height">100dp</dimen>
+
 
 </resources>

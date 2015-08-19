@@ -1,6 +1,5 @@
 package com.taxi.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,17 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.taxi.R;
 import com.taxi.application.AppConfig;
 import com.taxi.fragments.AboutFragment;
-import com.taxi.fragments.BookMyRideFragment;
 import com.taxi.fragments.FragmentDrawer;
-import com.taxi.fragments.HomeFragment;
 import com.taxi.fragments.InviteEarnFragment;
+import com.taxi.fragments.MapFragment;
 import com.taxi.fragments.MyMoneyFragment;
 import com.taxi.fragments.MyRidesFragment;
 
@@ -32,13 +28,13 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         AppConfig.setCurentContext(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -51,28 +47,9 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
         displayView(0);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-
-        return super.onOptionsItemSelected(item);
+    public void setMapToolbar(Toolbar mapToolbar) {
+        this.mToolbar = mapToolbar;
+        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -87,13 +64,12 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
             case 0:
                 fragment = new MyRidesFragment();
                 title = getString(R.string.title_rides);
-
                 break;
             case 1:
-                Intent intent = new Intent(getApplicationContext(), MapActicity.class);
-                startActivity(intent);
-                /*fragment = new HomeFragment();
-                title = "";*/
+//                Intent intent = new Intent(getApplicationContext(), MapActicity.class);
+//                startActivity(intent);
+                fragment = new MapFragment();
+//                title = "";
                 break;
             case 2:
                 fragment = new MyMoneyFragment();
@@ -106,13 +82,14 @@ public class HomeScreenActivity extends ActionBarActivity implements FragmentDra
             case 4:
                 fragment = new InviteEarnFragment();
                 title = getString(R.string.title_invite);
+                finish();
                 break;
             default:
                 break;
         }
 
         if (fragment != null) {
-           gotoFragment(fragment, title);
+            gotoFragment(fragment, title);
         }
     }
 
